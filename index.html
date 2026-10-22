@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Slime Land: diversión que estira sin parar. Slime divertido, seguro y de buena calidad.">
+<meta property="og:title" content="Slime Land">
+<meta property="og:description" content="Diversión que estira sin parar">
+<meta property="og:image" content="img/logo.webp">
+<link rel="icon" href="img/logo.webp">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Slime Land</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&display=swap">
+<style>
+/* Layout: una sola columna tipo "frasco" para el celular; cada sección es una gota de slime que se abre al tocarla */
+:root{
+  --bg:#fff8fd; --ink:#2a1640; --soft:#6d5a86; --card:#ffffff; --line:#f0e1f4;
+  --grape:#7b2ff2; --bubble:#ff2e93; --lime:#7ad61c; --sky:#16b4f0; --sun:#ffc21a;
+  --grape-tint:#efe4ff; --bubble-tint:#ffe3f0; --lime-tint:#eaf9d6; --sky-tint:#dcf3fd; --sun-tint:#fff3cc;
+  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --shadow:0 10px 30px -14px rgba(90,30,140,.35);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#170c24; --ink:#f7ecff; --soft:#bfaed6; --card:#24143a; --line:#3a2558;
+  --grape:#a873ff; --bubble:#ff5aaa; --lime:#9be84a; --sky:#4cc8f7; --sun:#ffd24d;
+  --grape-tint:#30195a; --bubble-tint:#47173a; --lime-tint:#22371a; --sky-tint:#143448; --sun-tint:#3d3214;
+  --shadow:0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#170c24; --ink:#f7ecff; --soft:#bfaed6; --card:#24143a; --line:#3a2558;
+  --grape:#a873ff; --bubble:#ff5aaa; --lime:#9be84a; --sky:#4cc8f7; --sun:#ffd24d;
+  --grape-tint:#30195a; --bubble-tint:#47173a; --lime-tint:#22371a; --sky-tint:#143448; --sun-tint:#3d3214;
+  --shadow:0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
+p{margin:0}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:10px}
+
+/* Hero */
+.hero{position:relative;text-align:center;padding-block:8px 8px}
+.hero .logo{width:min(78%,300px);border-radius:28px;box-shadow:var(--shadow);transform:rotate(-2deg);animation:wobble 5s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(-2deg) scale(1)}50%{transform:rotate(1.5deg) scale(1.02,.98)}}
+.hero h1{font-size:clamp(44px,13vw,64px);margin-top:18px;letter-spacing:.5px}
+.hero h1 .s{color:var(--bubble)} .hero h1 .l{color:var(--grape)} .hero h1 .i{color:var(--lime)} .hero h1 .m{color:var(--sky)} .hero h1 .e{color:var(--sun)}
+.slogan{display:inline-block;margin-top:10px;background:var(--sun);color:#2a1640;font-weight:900;font-size:18px;padding:6px 16px;border-radius:999px;transform:rotate(-1.5deg)}
+.hint{color:var(--soft);font-size:14px;margin-top:14px;font-weight:700}
+
+/* Feria */
+.feria{margin-top:22px;background:var(--grape);color:#fff;border-radius:26px 26px 26px 8px;padding:18px 20px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
+.feria .cal{flex:none;width:64px;text-align:center;background:#fff;color:#2a1640;border-radius:14px;overflow:hidden;font-weight:900}
+.feria .cal b{display:block;background:var(--bubble);color:#fff;font-size:11px;letter-spacing:1.5px;padding:3px 0}
+.feria .cal span{display:block;font-family:var(--display);font-size:30px;line-height:1.2}
+.feria h3{font-size:22px}
+.feria p{font-size:14px;opacity:.92;font-weight:700}
+.feria .count{font-variant-numeric:tabular-nums}
+
+/* Nav de gotas */
+.drops{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+.drops a{text-decoration:none;font-weight:800;font-size:14px;color:var(--ink);background:var(--card);border:2px solid var(--line);padding:6px 12px;border-radius:999px}
+
+/* Secciones tipo gota */
+.blobs{display:grid;gap:14px;margin-top:22px}
+.blob{background:var(--card);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;border:2px solid var(--line);scroll-margin-top:16px}
+.blob>button{all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:16px 18px}
+.blob>button:focus-visible{outline:3px solid var(--sky);outline-offset:-3px}
+.dot{flex:none;width:48px;height:48px;border-radius:46% 54% 60% 40% / 52% 44% 56% 48%;display:grid;place-items:center;color:#fff;font-family:var(--display);font-size:22px;transition:border-radius .5s}
+.blob[aria-expanded="true"] .dot,.blob:hover .dot{border-radius:58% 42% 40% 60% / 44% 58% 42% 56%}
+.blob h2{font-size:26px;flex:1}
+.blob .sub{display:block;font-family:var(--body);font-size:13px;color:var(--soft);font-weight:700;margin-top:3px}
+.chev{flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg);display:grid;place-items:center;transition:transform .35s;font-weight:900}
+.blob.open .chev{transform:rotate(180deg)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.3,1.4,.5,1)}
+.blob.open .panel{grid-template-rows:1fr}
+.panel>div{overflow:hidden;min-width:0}
+.inner{padding:0 18px 20px;display:grid;gap:12px}
+.inner p{font-size:17px}
+
+.c-bubble .dot{background:var(--bubble)} .c-bubble{--tint:var(--bubble-tint);--hue:var(--bubble)}
+.c-grape .dot{background:var(--grape)} .c-grape{--tint:var(--grape-tint);--hue:var(--grape)}
+.c-lime .dot{background:var(--lime)} .c-lime{--tint:var(--lime-tint);--hue:var(--lime)}
+.c-sky .dot{background:var(--sky)} .c-sky{--tint:var(--sky-tint);--hue:var(--sky)}
+.c-sun .dot{background:var(--sun);color:#2a1640} .c-sun{--tint:var(--sun-tint);--hue:var(--sun)}
+
+.quote{background:var(--tint);border-radius:18px;padding:14px 16px;font-weight:700}
+.tag{font-size:12px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--hue)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.list li{background:var(--tint);border-radius:14px;padding:10px 14px;font-weight:700;display:flex;gap:10px;align-items:flex-start}
+.list li::before{content:"";flex:none;width:12px;height:12px;margin-top:6px;border-radius:50% 50% 50% 0;background:var(--hue);transform:rotate(-45deg)}
+
+.year{font-family:var(--display);font-size:56px;color:var(--hue);line-height:1}
+
+/* Valores: tarjetas que se estiran */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.val{all:unset;cursor:pointer;text-align:center;background:var(--tint);border-radius:20px;padding:16px 6px;font-weight:900;font-size:14px;transition:transform .3s cubic-bezier(.3,1.8,.5,1)}
+.val .big{display:block;font-family:var(--display);font-weight:400;font-size:30px;color:var(--hue)}
+.val:active,.val.squish{transform:scale(1.12,.86)}
+.val:focus-visible{outline:3px solid var(--sky)}
+.vdesc{min-height:3em;font-size:15px;color:var(--soft);font-weight:700;text-align:center}
+
+/* Precios */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.price{background:var(--tint);border-radius:20px 20px 20px 6px;padding:14px 6px;text-align:center}
+.price .amt{font-family:var(--display);font-size:clamp(22px,6.5vw,30px);color:var(--ink);font-variant-numeric:tabular-nums}
+.price .cur{font-size:12px;font-weight:900;color:var(--soft);letter-spacing:1px}
+.note{font-size:14px;color:var(--soft);font-weight:700}
+
+/* Galería */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery button{all:unset;cursor:pointer;border-radius:18px;overflow:hidden;background:var(--tint);aspect-ratio:1;max-width:100%}
+.gallery button.tall{grid-column:span 2;aspect-ratio:auto}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.gallery button:hover img{transform:scale(1.05)}
+.gallery button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+
+/* Contacto */
+.phone{font-family:var(--display);font-size:clamp(30px,9vw,40px);letter-spacing:1px;user-select:all;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{all:unset;cursor:pointer;font-weight:900;padding:12px 18px;border-radius:999px;background:var(--hue);color:#fff;text-align:center;flex:1 1 140px}
+.btn.alt{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--hue)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.toast{font-size:14px;font-weight:800;color:var(--hue);min-height:1.4em}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(23,12,36,.9);display:grid;place-items:center;z-index:20;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-height:85vh;max-width:100%;border-radius:18px}
+.lb .x{all:unset;cursor:pointer}
+.lb .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;background:#fff;color:#2a1640;display:grid;place-items:center;font-weight:900;font-size:20px}
+
+footer{text-align:center;color:var(--soft);font-size:13px;font-weight:700;margin-top:30px}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <img class="logo" src="img/logo.webp" alt="Logo de Slime Land" width="307" height="296">
+    <h1><span class="s">S</span><span class="l">l</span><span class="i">i</span><span class="m">m</span><span class="e">e</span> Land</h1>
+    <div class="slogan">Diversión que estira sin parar</div>
+    <p class="hint">Toca cada gota para abrirla</p>
+
+    <div class="feria" role="note">
+      <div class="cal" aria-hidden="true"><b>OCT</b><span>25</span></div>
+      <div>
+        <h3>Feria Empresarial</h3>
+        <p>25 de octubre de 2026 · <span class="count" id="count"></span></p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="drops" aria-label="Secciones">
+    <a href="#objetivos" data-open="objetivos">Objetivos</a>
+    <a href="#mision" data-open="mision">Misión</a>
+    <a href="#vision" data-open="vision">Visión</a>
+    <a href="#valores" data-open="valores">Valores</a>
+    <a href="#precios" data-open="precios">Precios</a>
+    <a href="#galeria" data-open="galeria">Galería</a>
+    <a href="#contacto" data-open="contacto">Contacto</a>
+  </nav>
+
+  <main class="blobs">
+    <section class="blob c-bubble open" id="objetivos">
+      <button aria-expanded="true" aria-controls="p-obj"><span class="dot">1</span><h2>Objetivos<span class="sub">General y específicos</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-obj"><div><div class="inner">
+        <span class="tag">General</span>
+        <p class="quote">Fabricamos slime divertido, seguro y de buena calidad para entretener a los niños.</p>
+        <span class="tag">Específicos</span>
+        <ul class="list">
+          <li>Elaborar slime con materiales seguros.</li>
+          <li>Crear diferentes texturas y diseños.</li>
+        </ul>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-grape" id="mision">
+      <button aria-expanded="false" aria-controls="p-mis"><span class="dot">2</span><h2>Misión<span class="sub">Lo que hacemos cada día</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-mis"><div><div class="inner">
+        <p class="quote">Crear slimes divertidos, coloridos y seguros que permitan a los niños y niñas jugar, crear y disfrutar mientras desarrollan su imaginación.</p>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-sky" id="vision">
+      <button aria-expanded="false" aria-controls="p-vis"><span class="dot">3</span><h2>Visión<span class="sub">A dónde queremos llegar</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-vis"><div><div class="inner">
+        <div class="year">2030</div>
+        <p class="quote">Ser una empresa reconocida por ofrecer slimes creativos y de excelente calidad que brinden diversión a nuestros clientes.</p>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-lime" id="valores">
+      <button aria-expanded="false" aria-controls="p-val"><span class="dot">4</span><h2>Valores<span class="sub">Toca uno para estirarlo</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-val"><div><div class="inner">
+        <div class="values">
+          <button class="val" data-d="Cada slime sale de muchas manos que trabajan juntas."><span class="big">E</span>Trabajo en equipo</button>
+          <button class="val" data-d="Cuidamos los materiales y la seguridad de cada niño."><span class="big">R</span>Responsa&shy;bilidad</button>
+          <button class="val" data-d="Inventamos colores, texturas y diseños nuevos."><span class="big">C</span>Creatividad</button>
+        </div>
+        <p class="vdesc" id="vdesc" aria-live="polite">Trabajo en equipo, responsabilidad y creatividad.</p>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-sun" id="precios">
+      <button aria-expanded="false" aria-controls="p-pre"><span class="dot">$</span><h2>Precios<span class="sub">Para todos los bolsillos</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-pre"><div><div class="inner">
+        <div class="prices">
+          <div class="price"><div class="amt">$4.000</div><div class="cur">COP</div></div>
+          <div class="price"><div class="amt">$5.000</div><div class="cur">COP</div></div>
+          <div class="price"><div class="amt">$6.000</div><div class="cur">COP</div></div>
+        </div>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-bubble" id="galeria">
+      <button aria-expanded="false" aria-controls="p-gal"><span class="dot">★</span><h2>Galería<span class="sub">Nuestros slimes</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-gal"><div><div class="inner">
+        <div class="gallery">
+          <button data-full="img/frascos-futbol.webp"><img src="img/frascos-futbol.webp" alt="Frascos de slime de colores con muñecos de fútbol" loading="lazy"></button>
+          <button data-full="img/munecos.webp"><img src="img/munecos.webp" alt="Slimes con forma de muñecos en colores pastel" loading="lazy"></button>
+          <button data-full="img/caja-tigres.webp" class="tall"><img src="img/caja-tigres.webp" alt="Caja con tubos de slime de colores y tapas de tigre" loading="lazy"></button>
+          <button data-full="img/afiche.webp" class="tall"><img src="img/afiche.webp" alt="Afiche de Slime Land para la Feria Empresarial" loading="lazy"></button>
+        </div>
+      </div></div></div>
+    </section>
+
+    <section class="blob c-grape" id="contacto">
+      <button aria-expanded="false" aria-controls="p-con"><span class="dot">☎</span><h2>Contacto<span class="sub">Haz tu pedido</span></h2><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="panel" id="p-con"><div><div class="inner">
+        <div class="phone" id="phone">300 834 3894</div>
+        <div class="actions">
+          <a class="btn" href="https://wa.me/573008343894" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+          <button class="btn alt" id="copy">Copiar número</button>
+        </div>
+        <div class="toast" id="toast" aria-live="polite"></div>
+      </div></div></div>
+    </section>
+  </main>
+
+  <footer>Slime Land · Feria Empresarial 2026</footer>
+</div>
+
+<div class="lb" id="lb" hidden><img id="lbimg" alt=""><button class="x" id="lbx" aria-label="Cerrar">✕</button></div>
+
+<script>
+(function(){
+  var blobs=[].slice.call(document.querySelectorAll('.blob'));
+  function set(b,open){b.classList.toggle('open',open);b.querySelector(':scope>button').setAttribute('aria-expanded',open)}
+  blobs.forEach(function(b){b.querySelector(':scope>button').addEventListener('click',function(){set(b,!b.classList.contains('open'))})});
+  document.querySelectorAll('[data-open]').forEach(function(a){a.addEventListener('click',function(e){
+    var b=document.getElementById(a.dataset.open); if(!b) return; e.preventDefault(); set(b,true);
+    setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'start'})},60);
+  })});
+  var h=(location.hash||'').slice(1); if(h){var t=document.getElementById(h); if(t&&t.classList.contains('blob')) set(t,true);}
+
+  // Valores
+  var vd=document.getElementById('vdesc');
+  document.querySelectorAll('.val').forEach(function(v){v.addEventListener('click',function(){
+    vd.textContent=v.dataset.d; v.classList.add('squish'); setTimeout(function(){v.classList.remove('squish')},260);
+  })});
+
+  // Cuenta regresiva a la feria (25 oct 2026, hora Colombia)
+  var feria=new Date('2026-10-25T00:00:00-05:00'), c=document.getElementById('count');
+  function tick(){var d=feria-new Date(), days=Math.ceil(d/864e5);
+    c.textContent = d>864e5 ? 'faltan '+days+' días' : (d>0 ? '¡es mañana!' : (d>-864e5 ? '¡es hoy!' : '¡gracias por visitarnos!'));}
+  tick();
+
+  // Galería
+  var lb=document.getElementById('lb'), li=document.getElementById('lbimg');
+  document.querySelectorAll('.gallery button').forEach(function(g){g.addEventListener('click',function(){
+    li.src=g.dataset.full; li.alt=g.querySelector('img').alt; lb.hidden=false; document.getElementById('lbx').focus();
+  })});
+  function close(){lb.hidden=true}
+  lb.addEventListener('click',function(e){if(e.target!==li) close()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape') close()});
+
+  // Copiar número
+  var toast=document.getElementById('toast');
+  document.getElementById('copy').addEventListener('click',function(){
+    var num='3008343894';
+    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('phone'));var s=getSelection();s.removeAllRanges();s.addRange(r);toast.textContent='Número seleccionado: mantén presionado para copiarlo.'}
+    try{navigator.clipboard.writeText(num).then(function(){toast.textContent='Número copiado.'},sel)}catch(e){sel()}
+  });
+})();
+</script>
+
+</body>
+</html>
